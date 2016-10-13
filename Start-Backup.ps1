@@ -14,7 +14,7 @@
 #>
 [CmdLetBinding()]
     Param(
-    [Parameter(Mandatory=$True,HelpMessage="Please Enter Compputer Name(s)")]
+    [Parameter(Mandatory=$True,HelpMessage="Please Enter Computer Name(s)")]
               [string[]]$Computers
           )
 
