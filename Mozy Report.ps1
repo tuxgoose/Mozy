@@ -1,34 +1,35 @@
 ﻿$MachineList= @()
-$userlist=@()
 
-$Database = Import-Csv C:\users\phil.guzman\Desktop\PCInventory.csv
 
-$ExportList= Import-Csv 'C:\users\phil.guzman\Downloads\older machines.csv'
+$Database = Import-Csv C:\users\phil.guzman\Desktop\PCInventory.csv | Select-Object -Property alias,systemuser
 
-            
+$ExportList= Import-Csv 'C:\users\phil.guzman\Downloads\older machines (6).csv'
+
+
             foreach($Machine in $ExportList)
             {
-            $MozyActionUsers= New-Object -TypeName PSObject 
-        
-     
+            $properties = @{'Alias'=$Machine.Machine;
+                                 'Last Update'=$Machine.'Last Update';
+                                 'Backed Up'=$Machine.'Backed Up';
+                                 'Site'=$Machine.'User Group'}
 
-           $MozyActionUsers  |Add-Member -MemberType NoteProperty -name Alias -Value $Machine.machine
-           $MozyActionUsers | Add-Member -MemberType NoteProperty -Name "Last Update" -Value $Machine.'Last Update'
-           $MozyActionUsers | Add-Member -MemberType NoteProperty -Name "Backed Up" -Value $Machine.'Backed Up'
-           $MozyActionUsers | Add-Member -MemberType NoteProperty -Name "Site" -Value $Machine.'User Group'
-           $MachineList += $MozyActionUsers
+            $MozyActionUsers= New-Object -TypeName PSObject  -Property $properties
            
-               
-               
+
                foreach($i in $Database)
                {
-
+               
                if($Machine.machine -eq $i.Alias)
                {
-                    $MozyActionUsers | Add-Member -MemberType NoteProperty -name Systemuser -Value $i.systemuser 
+               
 
+               
+               $MozyActionUsers | Add-Member -MemberType NoteProperty -name Systemuser -Value $i.SystemUser 
+                $MachineList += $MozyActionUsers
                }
                
          
                }
+        
                }
+                 
